@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/crops/wheat/3.png" type="Texture" id=1]
+[ext_resource path="res://item.gd" type="Script" id=2]
+[ext_resource path="res://theme.tres" type="Theme" id=3]
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.423529, 0.321569, 0.227451, 1 )
+
+[node name="item" type="Panel"]
+margin_right = 92.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 92, 56 )
+theme = ExtResource( 3 )
+custom_styles/panel = SubResource( 10 )
+script = ExtResource( 2 )
+
+[node name="inventory" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="buy" type="Button" parent="inventory"]
+margin_left = 4.0
+margin_top = 36.0
+margin_right = 39.0
+margin_bottom = 53.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "buy"
+
+[node name="equip" type="Button" parent="inventory"]
+margin_left = 44.0
+margin_top = 36.0
+margin_right = 88.0
+margin_bottom = 53.0
+focus_mode = 0
+disabled = true
+enabled_focus_mode = 0
+text = "plant"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 16.0
+margin_bottom = 32.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource( 1 )
+stretch_mode = 4
+
+[node name="selling" type="Control" parent="."]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="sell" type="Button" parent="selling"]
+margin_left = 20.0
+margin_top = 36.0
+margin_right = 72.0
+margin_bottom = 53.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "sell all"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 16.0
+margin_right = 88.0
+margin_bottom = 32.0
+text = "wheat seed
+(1234)"
+valign = 1
+
+[connection signal="mouse_entered" from="inventory/buy" to="." method="_on_buy_mouse_entered"]
+[connection signal="mouse_exited" from="inventory/buy" to="." method="_on_buy_mouse_exited"]
+[connection signal="pressed" from="inventory/buy" to="." method="_on_buy_pressed"]
+[connection signal="pressed" from="inventory/equip" to="." method="_on_hold_pressed"]
+[connection signal="mouse_entered" from="selling/sell" to="." method="_on_sell_mouse_entered"]
+[connection signal="mouse_exited" from="selling/sell" to="." method="_on_sell_mouse_exited"]
+[connection signal="pressed" from="selling/sell" to="." method="_on_sell_pressed"]

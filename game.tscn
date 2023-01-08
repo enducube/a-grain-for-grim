@@ -1,0 +1,1299 @@
+[gd_scene load_steps=62 format=2]
+
+[ext_resource path="res://player.gd" type="Script" id=1]
+[ext_resource path="res://assets/farmer_down.png" type="Texture" id=2]
+[ext_resource path="res://assets/scythe_farmer.png" type="Texture" id=3]
+[ext_resource path="res://assets/grim_reaper.png" type="Texture" id=4]
+[ext_resource path="res://assets/scythe_grim.png" type="Texture" id=5]
+[ext_resource path="res://assets/grass.png" type="Texture" id=6]
+[ext_resource path="res://game.gd" type="Script" id=7]
+[ext_resource path="res://assets/farm.ogg" type="AudioStream" id=8]
+[ext_resource path="res://farm_plot.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/backpack.png" type="Texture" id=10]
+[ext_resource path="res://theme.tres" type="Theme" id=11]
+[ext_resource path="res://assets/bush.png" type="Texture" id=12]
+[ext_resource path="res://item.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/crops/wheat/1.png" type="Texture" id=14]
+[ext_resource path="res://assets/crops/oats/1.png" type="Texture" id=15]
+[ext_resource path="res://assets/crops/rice/1.png" type="Texture" id=16]
+[ext_resource path="res://hover.gd" type="Script" id=17]
+[ext_resource path="res://assets/crops/barley/3.png" type="Texture" id=18]
+[ext_resource path="res://assets/crops/rice/3.png" type="Texture" id=19]
+[ext_resource path="res://assets/crops/oats/3.png" type="Texture" id=20]
+[ext_resource path="res://assets/crops/wheat/3.png" type="Texture" id=21]
+[ext_resource path="res://assets/sell_stand.png" type="Texture" id=22]
+[ext_resource path="res://assets/magic_stand.png" type="Texture" id=23]
+[ext_resource path="res://assets/watercanmini.png" type="Texture" id=24]
+[ext_resource path="res://assets/scythemini.png" type="Texture" id=25]
+[ext_resource path="res://assets/rectanglething.png" type="Texture" id=26]
+[ext_resource path="res://assets/crops/barley/1.png" type="Texture" id=27]
+[ext_resource path="res://rectanglecursor.gd" type="Script" id=28]
+[ext_resource path="res://assets/watercan.png" type="Texture" id=29]
+[ext_resource path="res://assets/water.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/scythe_crop_conflict.wav" type="AudioStream" id=31]
+[ext_resource path="res://grim_reaper.gd" type="Script" id=32]
+[ext_resource path="res://assets/crow.png" type="Texture" id=33]
+[ext_resource path="res://pause.gd" type="Script" id=34]
+[ext_resource path="res://notification.gd" type="Script" id=35]
+
+[sub_resource type="ConvexPolygonShape2D" id=28]
+points = PoolVector2Array( 16, 16, 0, 16, 0, 0, 16, 0 )
+
+[sub_resource type="TileSet" id=6]
+0/name = "grass.png 0"
+0/texture = ExtResource( 6 )
+0/tex_offset = Vector2( 0, 0 )
+0/modulate = Color( 1, 1, 1, 1 )
+0/region = Rect2( 0, 0, 16, 16 )
+0/tile_mode = 0
+0/occluder_offset = Vector2( 0, 0 )
+0/navigation_offset = Vector2( 0, 0 )
+0/shape_offset = Vector2( 0, 0 )
+0/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+0/shape_one_way = false
+0/shape_one_way_margin = 0.0
+0/shapes = [  ]
+0/z_index = 0
+4/name = "grass.png 4"
+4/texture = ExtResource( 6 )
+4/tex_offset = Vector2( 0, 0 )
+4/modulate = Color( 1, 1, 1, 1 )
+4/region = Rect2( 16, 0, 16, 16 )
+4/tile_mode = 0
+4/occluder_offset = Vector2( 0, 0 )
+4/navigation_offset = Vector2( 0, 0 )
+4/shape_offset = Vector2( 0, 0 )
+4/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+4/shape = SubResource( 28 )
+4/shape_one_way = false
+4/shape_one_way_margin = 1.0
+4/shapes = [ {
+"autotile_coord": Vector2( 0, 0 ),
+"one_way": false,
+"one_way_margin": 1.0,
+"shape": SubResource( 28 ),
+"shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
+} ]
+4/z_index = 0
+
+[sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 16, 32 )
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 4, 3.5 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "swing"
+length = 0.2
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -180.0, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:monitorable")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.01, 0.19 ),
+"transitions": PoolRealArray( 1e+06, 1, 100000 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 5.0
+height = 8.0
+
+[sub_resource type="Animation" id=4]
+resource_name = "swing"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 0.258816, 1.7411 ),
+"update": 0,
+"values": [ 0.0, -180.0, 0.0 ]
+}
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 5.5, 195.5 )
+
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 202, 10 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.290196, 0.196078, 0.164706, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.258824, 0.231373, 0.2, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=26]
+bg_color = Color( 0.121569, 0.121569, 0.121569, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=27]
+bg_color = Color( 0.317647, 0.133333, 0.133333, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_detail = 1
+
+[sub_resource type="DynamicFontData" id=24]
+antialiased = false
+font_path = "res://assets/SerifPixel7-llXe.ttf"
+
+[sub_resource type="DynamicFont" id=25]
+size = 10
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 24 )
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.254902, 0.239216, 0.231373, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.329412, 0.231373, 0.176471, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 0.470588, 0.388235, 0.345098, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=12]
+bg_color = Color( 0.211765, 0.164706, 0.141176, 1 )
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.556863, 0.364706, 0.239216, 1 )
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.615686, 0.423529, 0.294118, 1 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.74902, 0.505882, 0.345098, 1 )
+
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.423529, 0.423529, 0.423529, 1 )
+border_width_left = 4
+border_color = Color( 0.254902, 0.168627, 0.137255, 1 )
+
+[sub_resource type="DynamicFontData" id=19]
+antialiased = false
+font_path = "res://assets/SerifPixel7-llXe.ttf"
+
+[sub_resource type="DynamicFont" id=22]
+size = 10
+outline_size = 1
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 19 )
+
+[sub_resource type="Theme" id=21]
+default_font = SubResource( 22 )
+Button/styles/disabled = SubResource( 17 )
+Button/styles/focus = SubResource( 18 )
+Button/styles/hover = SubResource( 11 )
+Button/styles/normal = SubResource( 18 )
+Button/styles/pressed = SubResource( 12 )
+VScrollBar/styles/grabber = SubResource( 13 )
+VScrollBar/styles/grabber_highlight = SubResource( 15 )
+VScrollBar/styles/grabber_pressed = SubResource( 16 )
+VScrollBar/styles/scroll = SubResource( 14 )
+
+[node name="game" type="Node2D"]
+script = ExtResource( 7 )
+
+[node name="TileMap" type="TileMap" parent="."]
+z_index = -2
+tile_set = SubResource( 6 )
+cell_size = Vector2( 16, 16 )
+cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
+format = 1
+tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 6, 0, 0, 7, 0, 0, 8, 0, 0, 9, 0, 0, 10, 0, 0, 11, 0, 0, 12, 0, 0, 13, 0, 0, 14, 0, 0, 15, 0, 0, 16, 0, 0, 17, 0, 0, 18, 0, 0, 19, 0, 0, 20, 0, 0, 21, 0, 0, 22, 0, 0, 23, 0, 0, 65536, 0, 0, 65537, 0, 0, 65538, 0, 0, 65539, 0, 0, 65540, 0, 0, 65541, 0, 0, 65542, 0, 0, 65543, 0, 0, 65544, 0, 0, 65545, 0, 0, 65546, 0, 0, 65547, 0, 0, 65548, 0, 0, 65549, 0, 0, 65550, 0, 0, 65551, 0, 0, 65552, 0, 0, 65553, 0, 0, 65554, 0, 0, 65555, 0, 0, 65556, 0, 0, 65557, 0, 0, 65558, 0, 0, 65559, 0, 0, 131072, 0, 0, 131073, 0, 0, 131074, 0, 0, 131075, 0, 0, 131076, 0, 0, 131077, 0, 0, 131078, 0, 0, 131079, 0, 0, 131080, 0, 0, 131081, 0, 0, 131082, 0, 0, 131083, 0, 0, 131084, 0, 0, 131085, 0, 0, 131086, 0, 0, 131087, 0, 0, 131088, 0, 0, 131089, 0, 0, 131090, 0, 0, 131091, 0, 0, 131092, 0, 0, 131093, 0, 0, 131094, 0, 0, 131095, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0, 196615, 0, 0, 196616, 0, 0, 196617, 0, 0, 196618, 0, 0, 196619, 0, 0, 196620, 0, 0, 196621, 0, 0, 196622, 0, 0, 196623, 0, 0, 196624, 0, 0, 196625, 0, 0, 196626, 0, 0, 196627, 0, 0, 196628, 0, 0, 196629, 0, 0, 196630, 0, 0, 196631, 0, 0, 262144, 0, 0, 262145, 0, 0, 262146, 0, 0, 262147, 0, 0, 262148, 0, 0, 262149, 0, 0, 262150, 0, 0, 262151, 0, 0, 262152, 0, 0, 262153, 0, 0, 262154, 0, 0, 262155, 0, 0, 262156, 0, 0, 262157, 0, 0, 262158, 0, 0, 262159, 0, 0, 262160, 0, 0, 262161, 0, 0, 262162, 0, 0, 262163, 0, 0, 262164, 0, 0, 262165, 0, 0, 262166, 0, 0, 262167, 0, 0, 327680, 0, 0, 327681, 0, 0, 327682, 0, 0, 327683, 0, 0, 327684, 0, 0, 327685, 0, 0, 327686, 0, 0, 327687, 0, 0, 327688, 0, 0, 327689, 0, 0, 327690, 0, 0, 327691, 0, 0, 327692, 0, 0, 327693, 0, 0, 327694, 0, 0, 327695, 0, 0, 327696, 0, 0, 327697, 0, 0, 327698, 0, 0, 327699, 0, 0, 327700, 0, 0, 327701, 0, 0, 327702, 0, 0, 327703, 0, 0, 393216, 0, 0, 393217, 0, 0, 393218, 0, 0, 393219, 0, 0, 393220, 0, 0, 393221, 0, 0, 393222, 0, 0, 393223, 0, 0, 393224, 0, 0, 393225, 0, 0, 393226, 0, 0, 393227, 0, 0, 393228, 0, 0, 393229, 0, 0, 393230, 0, 0, 393231, 0, 0, 393232, 0, 0, 393233, 0, 0, 393234, 0, 0, 393235, 0, 0, 393236, 0, 0, 393237, 0, 0, 393238, 0, 0, 393239, 0, 0, 458752, 0, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 458763, 0, 0, 458764, 0, 0, 458765, 0, 0, 458766, 0, 0, 458767, 0, 0, 458768, 0, 0, 458769, 0, 0, 458770, 0, 0, 458771, 0, 0, 458772, 0, 0, 458773, 0, 0, 458774, 0, 0, 458775, 0, 0, 524288, 0, 0, 524289, 0, 0, 524290, 0, 0, 524291, 0, 0, 524292, 0, 0, 524293, 0, 0, 524294, 0, 0, 524295, 0, 0, 524296, 0, 0, 524297, 0, 0, 524298, 0, 0, 524299, 0, 0, 524300, 0, 0, 524301, 0, 0, 524302, 0, 0, 524303, 0, 0, 524304, 0, 0, 524305, 0, 0, 524306, 0, 0, 524307, 0, 0, 524308, 0, 0, 524309, 0, 0, 524310, 0, 0, 524311, 0, 0, 589824, 0, 0, 589825, 0, 0, 589826, 0, 0, 589827, 0, 0, 589828, 0, 0, 589829, 0, 0, 589830, 0, 0, 589831, 0, 0, 589832, 0, 0, 589833, 0, 0, 589834, 0, 0, 589835, 0, 0, 589836, 0, 0, 589837, 0, 0, 589838, 0, 0, 589839, 0, 0, 589840, 0, 0, 589841, 0, 0, 589842, 0, 0, 589843, 0, 0, 589844, 0, 0, 589845, 0, 0, 589846, 0, 0, 589847, 0, 0, 655360, 0, 0, 655361, 0, 0, 655362, 0, 0, 655363, 0, 0, 655364, 0, 0, 655365, 0, 0, 655366, 0, 0, 655367, 0, 0, 655368, 0, 0, 655369, 0, 0, 655370, 0, 0, 655371, 0, 0, 655372, 0, 0, 655373, 0, 0, 655374, 0, 0, 655375, 0, 0, 655376, 0, 0, 655377, 0, 0, 655378, 0, 0, 655379, 0, 0, 655380, 0, 0, 655381, 0, 0, 655382, 0, 0, 655383, 0, 0, 720896, 0, 0, 720897, 0, 0, 720898, 0, 0, 720899, 0, 0, 720900, 0, 0, 720901, 0, 0, 720902, 0, 0, 720903, 0, 0, 720904, 0, 0, 720905, 0, 0, 720906, 0, 0, 720907, 0, 0, 720908, 0, 0, 720909, 0, 0, 720910, 0, 0, 720911, 0, 0, 720912, 0, 0, 720913, 0, 0, 720914, 0, 0, 720915, 0, 0, 720916, 0, 0, 720917, 0, 0, 720918, 0, 0, 720919, 0, 0, 786432, 0, 0, 786433, 0, 0, 786434, 0, 0, 786435, 0, 0, 786436, 0, 0, 786437, 0, 0, 786438, 0, 0, 786439, 0, 0, 786440, 0, 0, 786441, 0, 0, 786442, 0, 0, 786443, 0, 0, 786444, 0, 0, 786445, 0, 0, 786446, 0, 0, 786447, 0, 0, 786448, 0, 0, 786449, 0, 0, 786450, 0, 0, 786451, 0, 0, 786452, 0, 0, 786453, 0, 0, 786454, 0, 0, 786455, 0, 0, 851968, 0, 0, 851969, 0, 0, 851970, 0, 0, 851971, 0, 0, 851972, 0, 0, 851973, 0, 0, 851974, 0, 0, 851975, 0, 0, 851976, 0, 0, 851977, 0, 0, 851978, 0, 0, 851979, 0, 0, 851980, 0, 0, 851981, 0, 0, 851982, 0, 0, 851983, 0, 0, 851984, 0, 0, 851985, 0, 0, 851986, 0, 0, 851987, 0, 0, 851988, 0, 0, 851989, 0, 0, 851990, 0, 0, 851991, 0, 0, 917504, 0, 0, 917505, 0, 0, 917506, 0, 0, 917507, 0, 0, 917508, 0, 0, 917509, 0, 0, 917510, 0, 0, 917511, 0, 0, 917512, 0, 0, 917513, 0, 0, 917514, 0, 0, 917515, 0, 0, 917516, 0, 0, 917517, 0, 0, 917518, 0, 0, 917519, 0, 0, 917520, 0, 0, 917521, 0, 0, 917522, 0, 0, 917523, 0, 0, 917524, 0, 0, 917525, 0, 0, 917526, 0, 0, 917527, 0, 0, 983040, 0, 0, 983041, 0, 0, 983042, 0, 0, 983043, 0, 0, 983044, 0, 0, 983045, 0, 0, 983046, 0, 0, 983047, 0, 0, 983048, 0, 0, 983049, 0, 0, 983050, 0, 0, 983051, 0, 0, 983052, 0, 0, 983053, 0, 0, 983054, 0, 0, 983055, 0, 0, 983056, 0, 0, 983057, 0, 0, 983058, 0, 0, 983059, 0, 0, 983060, 0, 0, 983061, 0, 0, 983062, 0, 0, 983063, 0, 0, 1048576, 0, 0, 1048577, 0, 0, 1048578, 0, 0, 1048579, 0, 0, 1048580, 0, 0, 1048581, 0, 0, 1048582, 0, 0, 1048583, 0, 0, 1048584, 0, 0, 1048585, 0, 0, 1048586, 0, 0, 1048587, 0, 0, 1048588, 0, 0, 1048589, 0, 0, 1048590, 0, 0, 1048591, 0, 0, 1048592, 0, 0, 1048593, 0, 0, 1048594, 0, 0, 1048595, 0, 0, 1048596, 0, 0, 1048597, 0, 0, 1048598, 0, 0, 1048599, 0, 0, 1114112, 0, 0, 1114113, 0, 0, 1114114, 0, 0, 1114115, 0, 0, 1114116, 0, 0, 1114117, 0, 0, 1114118, 0, 0, 1114119, 0, 0, 1114120, 0, 0, 1114121, 0, 0, 1114122, 0, 0, 1114123, 0, 0, 1114124, 0, 0, 1114125, 0, 0, 1114126, 0, 0, 1114127, 0, 0, 1114128, 0, 0, 1114129, 0, 0, 1114130, 0, 0, 1114131, 0, 0, 1114132, 0, 0, 1114133, 0, 0, 1114134, 0, 0, 1114135, 0, 0, 1179648, 0, 0, 1179649, 0, 0, 1179650, 0, 0, 1179651, 0, 0, 1179652, 0, 0, 1179653, 0, 0, 1179654, 0, 0, 1179655, 0, 0, 1179656, 0, 0, 1179657, 0, 0, 1179658, 0, 0, 1179659, 0, 0, 1179660, 0, 0, 1179661, 0, 0, 1179662, 0, 0, 1179663, 0, 0, 1179664, 0, 0, 1179665, 0, 0, 1179666, 0, 0, 1179667, 0, 0, 1179668, 0, 0, 1179669, 0, 0, 1179670, 0, 0, 1179671, 0, 0, 1245184, 0, 0, 1245185, 0, 0, 1245186, 0, 0, 1245187, 0, 0, 1245188, 0, 0, 1245189, 0, 0, 1245190, 0, 0, 1245191, 0, 0, 1245192, 0, 0, 1245193, 0, 0, 1245194, 0, 0, 1245195, 0, 0, 1245196, 0, 0, 1245197, 0, 0, 1245198, 0, 0, 1245199, 0, 0, 1245200, 0, 0, 1245201, 0, 0, 1245202, 0, 0, 1245203, 0, 0, 1245204, 0, 0, 1245205, 0, 0, 1245206, 0, 0, 1245207, 0, 0, 1310720, 0, 0, 1310721, 0, 0, 1310722, 0, 0, 1310723, 0, 0, 1310724, 0, 0, 1310725, 0, 0, 1310726, 0, 0, 1310727, 0, 0, 1310728, 0, 0, 1310729, 0, 0, 1310730, 0, 0, 1310731, 0, 0, 1310732, 0, 0, 1310733, 0, 0, 1310734, 0, 0, 1310735, 0, 0, 1310736, 0, 0, 1310737, 0, 0, 1310738, 0, 0, 1310739, 0, 0, 1310740, 0, 0, 1310741, 0, 0, 1310742, 0, 0, 1310743, 0, 0, 1376256, 0, 0, 1376257, 0, 0, 1376258, 0, 0, 1376259, 0, 0, 1376260, 0, 0, 1376261, 0, 0, 1376262, 0, 0, 1376263, 0, 0, 1376264, 0, 0, 1376265, 0, 0, 1376266, 0, 0, 1376267, 0, 0, 1376268, 0, 0, 1376269, 0, 0, 1376270, 0, 0, 1376271, 0, 0, 1376272, 0, 0, 1376273, 0, 0, 1376274, 0, 0, 1376275, 0, 0, 1376276, 0, 0, 1376277, 0, 0, 1376278, 0, 0, 1376279, 0, 0, 1441792, 0, 0, 1441793, 0, 0, 1441794, 0, 0, 1441795, 0, 0, 1441796, 0, 0, 1441797, 0, 0, 1441798, 0, 0, 1441799, 0, 0, 1441800, 0, 0, 1441801, 0, 0, 1441802, 0, 0, 1441803, 0, 0, 1441804, 0, 0, 1441805, 0, 0, 1441806, 0, 0, 1441807, 0, 0, 1441808, 0, 0, 1441809, 0, 0, 1441810, 0, 0, 1441811, 0, 0, 1441812, 0, 0, 1441813, 0, 0, 1441814, 0, 0, 1441815, 0, 0, 1507328, 0, 0, 1507329, 0, 0, 1507330, 0, 0, 1507331, 0, 0, 1507332, 0, 0, 1507333, 0, 0, 1507334, 0, 0, 1507335, 0, 0, 1507336, 0, 0, 1507337, 0, 0, 1507338, 0, 0, 1507339, 0, 0, 1507340, 0, 0, 1507341, 0, 0, 1507342, 0, 0, 1507343, 0, 0, 1507344, 0, 0, 1507345, 0, 0, 1507346, 0, 0, 1507347, 0, 0, 1507348, 0, 0, 1507349, 0, 0, 1507350, 0, 0, 1507351, 0, 0 )
+
+[node name="stands" type="Node2D" parent="."]
+
+[node name="sell" type="TextureButton" parent="stands"]
+margin_left = 144.0
+margin_top = 16.0
+margin_right = 176.0
+margin_bottom = 48.0
+texture_normal = ExtResource( 22 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="stands/sell"]
+position = Vector2( 16, 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stands/sell/StaticBody2D"]
+position = Vector2( 0, -16 )
+shape = SubResource( 23 )
+
+[node name="magic" type="TextureButton" parent="stands"]
+margin_left = 208.0
+margin_top = 16.0
+margin_right = 240.0
+margin_bottom = 48.0
+texture_normal = ExtResource( 23 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="stands/magic"]
+position = Vector2( 16, 16 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="stands/magic/StaticBody2D"]
+position = Vector2( 0, -16 )
+shape = SubResource( 23 )
+
+[node name="player" type="KinematicBody2D" parent="."]
+position = Vector2( 192, 320 )
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="player"]
+texture = ExtResource( 2 )
+
+[node name="watercan" type="Sprite" parent="player"]
+position = Vector2( 16, 0 )
+texture = ExtResource( 29 )
+
+[node name="seed" type="Sprite" parent="player"]
+position = Vector2( 16, 0 )
+texture = ExtResource( 29 )
+
+[node name="scythe" type="Area2D" parent="player" groups=["player_scythe", "scythe"]]
+rotation = -2.19911
+collision_layer = 9
+collision_mask = 9
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/scythe"]
+position = Vector2( -13, -6 )
+shape = SubResource( 1 )
+
+[node name="ScytheFarmer" type="Sprite" parent="player/scythe/CollisionShape2D"]
+position = Vector2( 0, 6 )
+texture = ExtResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="player/scythe"]
+anims/swing = SubResource( 3 )
+
+[node name="sfx" type="Node2D" parent="player"]
+
+[node name="water" type="AudioStreamPlayer" parent="player/sfx" groups=["sfx"]]
+stream = ExtResource( 30 )
+volume_db = -8.0
+
+[node name="harvest" type="AudioStreamPlayer" parent="player/sfx" groups=["sfx"]]
+stream = ExtResource( 31 )
+volume_db = -15.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+rotation = -0.628319
+shape = SubResource( 2 )
+
+[node name="grim_reaper" type="KinematicBody2D" parent="."]
+position = Vector2( 192, -28 )
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 32 )
+
+[node name="Sprite" type="Sprite" parent="grim_reaper"]
+texture = ExtResource( 4 )
+
+[node name="scythe" type="Area2D" parent="grim_reaper" groups=["scythe"]]
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="grim_reaper/scythe"]
+position = Vector2( -15, -16.5 )
+shape = SubResource( 1 )
+
+[node name="ScytheFarmer" type="Sprite" parent="grim_reaper/scythe/CollisionShape2D"]
+position = Vector2( 0.5, 12 )
+texture = ExtResource( 5 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="grim_reaper/scythe"]
+anims/swing = SubResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="grim_reaper"]
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 192, 304 )
+current = true
+smoothing_enabled = true
+smoothing_speed = 8.0
+
+[node name="plots" type="Node2D" parent="."]
+z_index = -1
+
+[node name="group" type="Node2D" parent="plots"]
+
+[node name="farm_plot" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group2" type="Node2D" parent="plots"]
+position = Vector2( 0, 48 )
+
+[node name="farm_plot" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group2" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group3" type="Node2D" parent="plots"]
+position = Vector2( 0, 96 )
+
+[node name="farm_plot" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group3" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group4" type="Node2D" parent="plots"]
+position = Vector2( 0, 144 )
+
+[node name="farm_plot" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group4" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group5" type="Node2D" parent="plots"]
+position = Vector2( 0, 192 )
+
+[node name="farm_plot" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group5" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group6" type="Node2D" parent="plots"]
+position = Vector2( 0, 240 )
+
+[node name="farm_plot" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group6" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group7" type="Node2D" parent="plots"]
+position = Vector2( 192, 0 )
+
+[node name="farm_plot" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group7" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group8" type="Node2D" parent="plots"]
+position = Vector2( 192, 48 )
+
+[node name="farm_plot" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group8" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group9" type="Node2D" parent="plots"]
+position = Vector2( 192, 96 )
+
+[node name="farm_plot" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group9" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group10" type="Node2D" parent="plots"]
+position = Vector2( 192, 144 )
+
+[node name="farm_plot" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group10" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group11" type="Node2D" parent="plots"]
+position = Vector2( 192, 192 )
+
+[node name="farm_plot" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group11" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="group12" type="Node2D" parent="plots"]
+position = Vector2( 192, 240 )
+
+[node name="farm_plot" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 32, 64 )
+
+[node name="farm_plot2" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 48, 64 )
+
+[node name="farm_plot3" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 64, 64 )
+
+[node name="farm_plot4" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 80, 64 )
+
+[node name="farm_plot5" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 96, 64 )
+
+[node name="farm_plot6" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 112, 64 )
+
+[node name="farm_plot7" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 128, 64 )
+
+[node name="farm_plot8" parent="plots/group12" instance=ExtResource( 9 )]
+position = Vector2( 144, 64 )
+
+[node name="bushes" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="bushes"]
+position = Vector2( -12, 28 )
+texture = ExtResource( 12 )
+
+[node name="Sprite2" type="Sprite" parent="bushes"]
+position = Vector2( -12, 68 )
+texture = ExtResource( 12 )
+
+[node name="Sprite3" type="Sprite" parent="bushes"]
+position = Vector2( -4, 124 )
+rotation = -0.684404
+texture = ExtResource( 12 )
+
+[node name="Sprite4" type="Sprite" parent="bushes"]
+position = Vector2( -8, 168 )
+rotation = 0.0783604
+texture = ExtResource( 12 )
+
+[node name="Sprite5" type="Sprite" parent="bushes"]
+position = Vector2( -8.00001, 204 )
+rotation = -0.640404
+texture = ExtResource( 12 )
+
+[node name="Sprite6" type="Sprite" parent="bushes"]
+position = Vector2( -8.00001, 252 )
+rotation = -2.18519
+texture = ExtResource( 12 )
+
+[node name="Sprite7" type="Sprite" parent="bushes"]
+position = Vector2( -4.00001, 296 )
+rotation = -3.33371
+texture = ExtResource( 12 )
+
+[node name="Sprite8" type="Sprite" parent="bushes"]
+position = Vector2( -12, 340 )
+rotation = -1.51511
+texture = ExtResource( 12 )
+
+[node name="Sprite9" type="Sprite" parent="bushes"]
+position = Vector2( -4, 388 )
+rotation = -1.51511
+texture = ExtResource( 12 )
+
+[node name="Sprite10" type="Sprite" parent="bushes"]
+position = Vector2( 385.585, 32 )
+rotation = -1.29474
+texture = ExtResource( 12 )
+
+[node name="Sprite11" type="Sprite" parent="bushes"]
+position = Vector2( 385.585, 72 )
+rotation = -1.29474
+texture = ExtResource( 12 )
+
+[node name="Sprite12" type="Sprite" parent="bushes"]
+position = Vector2( 393.585, 128 )
+rotation = -1.97914
+texture = ExtResource( 12 )
+
+[node name="Sprite13" type="Sprite" parent="bushes"]
+position = Vector2( 389.585, 172 )
+rotation = -1.21638
+texture = ExtResource( 12 )
+
+[node name="Sprite14" type="Sprite" parent="bushes"]
+position = Vector2( 389.585, 208 )
+rotation = -1.93514
+texture = ExtResource( 12 )
+
+[node name="Sprite15" type="Sprite" parent="bushes"]
+position = Vector2( 389.585, 256 )
+rotation = -3.47993
+texture = ExtResource( 12 )
+
+[node name="Sprite16" type="Sprite" parent="bushes"]
+position = Vector2( 393.585, 300 )
+rotation = -4.62845
+texture = ExtResource( 12 )
+
+[node name="Sprite17" type="Sprite" parent="bushes"]
+position = Vector2( 385.585, 344 )
+rotation = -2.80985
+texture = ExtResource( 12 )
+
+[node name="Sprite18" type="Sprite" parent="bushes"]
+position = Vector2( 393.585, 392 )
+rotation = -2.80985
+texture = ExtResource( 12 )
+
+[node name="Sprite19" type="Sprite" parent="bushes"]
+position = Vector2( 52, 388 )
+rotation = -2.80985
+texture = ExtResource( 12 )
+
+[node name="Sprite20" type="Sprite" parent="bushes"]
+position = Vector2( 104, 388 )
+rotation = -2.25818
+texture = ExtResource( 12 )
+
+[node name="Sprite21" type="Sprite" parent="bushes"]
+position = Vector2( 148, 396 )
+rotation = -2.25818
+texture = ExtResource( 12 )
+
+[node name="Sprite22" type="Sprite" parent="bushes"]
+position = Vector2( 204, 388 )
+rotation = -2.94943
+texture = ExtResource( 12 )
+
+[node name="Sprite23" type="Sprite" parent="bushes"]
+position = Vector2( 244, 388 )
+rotation = -1.74037
+texture = ExtResource( 12 )
+
+[node name="Sprite24" type="Sprite" parent="bushes"]
+position = Vector2( 292, 396 )
+rotation = -1.74037
+texture = ExtResource( 12 )
+
+[node name="Sprite25" type="Sprite" parent="bushes"]
+position = Vector2( 336, 396 )
+rotation = -1.74037
+texture = ExtResource( 12 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="bushes"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bushes/StaticBody2D"]
+position = Vector2( -5.5, 187.5 )
+shape = SubResource( 7 )
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="bushes"]
+position = Vector2( 396, 0 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bushes/StaticBody2D2"]
+position = Vector2( -6, 188 )
+shape = SubResource( 7 )
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="bushes"]
+position = Vector2( 208, 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bushes/StaticBody2D3"]
+position = Vector2( -10, 390 )
+shape = SubResource( 8 )
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="bushes"]
+position = Vector2( 200, -400 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="bushes/StaticBody2D4"]
+position = Vector2( -10, 390 )
+shape = SubResource( 8 )
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." groups=["music"]]
+stream = ExtResource( 8 )
+volume_db = -10.0
+autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="gui" type="Control" parent="CanvasLayer"]
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 11 )
+
+[node name="TextureRect" type="TextureButton" parent="CanvasLayer/gui"]
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 20.0
+margin_bottom = 20.0
+mouse_filter = 2
+texture_normal = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="CanvasLayer/gui/TextureRect"]
+margin_left = 16.0
+margin_right = 56.0
+margin_bottom = 14.0
+text = "[tab]"
+valign = 2
+
+[node name="time_and_cash" type="RichTextLabel" parent="CanvasLayer/gui"]
+margin_left = 96.0
+margin_top = 4.0
+margin_right = 156.0
+margin_bottom = 29.0
+mouse_filter = 2
+bbcode_enabled = true
+bbcode_text = "h
+h
+h"
+text = "h
+h
+h"
+fit_content_height = true
+scroll_active = false
+
+[node name="slot1" type="Panel" parent="CanvasLayer/gui"]
+margin_left = 104.0
+margin_top = 144.0
+margin_right = 120.0
+margin_bottom = 160.0
+
+[node name="Label" type="Label" parent="CanvasLayer/gui/slot1"]
+margin_left = 4.0
+margin_top = -8.0
+margin_right = 10.0
+margin_bottom = 3.0
+text = "1"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/gui/slot1"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 25 )
+
+[node name="slot2" type="Panel" parent="CanvasLayer/gui"]
+margin_left = 124.0
+margin_top = 144.0
+margin_right = 140.0
+margin_bottom = 160.0
+
+[node name="Label" type="Label" parent="CanvasLayer/gui/slot2"]
+margin_left = 4.0
+margin_top = -8.0
+margin_right = 10.0
+margin_bottom = 3.0
+text = "2"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/gui/slot2"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 24 )
+
+[node name="slot3" type="Panel" parent="CanvasLayer/gui"]
+margin_left = 144.0
+margin_top = 144.0
+margin_right = 160.0
+margin_bottom = 160.0
+
+[node name="Label" type="Label" parent="CanvasLayer/gui/slot3"]
+margin_left = 4.0
+margin_top = -8.0
+margin_right = 10.0
+margin_bottom = 3.0
+text = "3"
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/gui/slot3"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 27 )
+
+[node name="inventory" type="Control" parent="CanvasLayer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+theme = ExtResource( 11 )
+
+[node name="Panel" type="Panel" parent="CanvasLayer/inventory"]
+margin_left = 28.0
+margin_top = 28.0
+margin_right = 132.0
+margin_bottom = 132.0
+custom_styles/panel = SubResource( 9 )
+
+[node name="Label" type="Label" parent="CanvasLayer/inventory/Panel"]
+margin_left = 4.0
+margin_right = 65.0
+margin_bottom = 14.0
+text = "seeds"
+valign = 2
+
+[node name="close" type="Button" parent="CanvasLayer/inventory/Panel"]
+modulate = Color( 0.839216, 0.235294, 0.235294, 1 )
+margin_left = 80.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_clip_content = true
+focus_mode = 0
+enabled_focus_mode = 0
+text = "x"
+flat = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/inventory/Panel"]
+anchor_top = 0.154
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = -0.0160007
+margin_right = -4.0
+margin_bottom = -4.0
+scroll_horizontal_enabled = false
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/inventory/Panel/ScrollContainer"]
+margin_right = 92.0
+margin_bottom = 236.0
+
+[node name="wheat seed" parent="CanvasLayer/inventory/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+icon = ExtResource( 14 )
+
+[node name="oat seed" parent="CanvasLayer/inventory/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 60.0
+margin_bottom = 116.0
+type = "oat seed"
+icon = ExtResource( 15 )
+
+[node name="barley seed" parent="CanvasLayer/inventory/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 120.0
+margin_bottom = 176.0
+type = "barley seed"
+icon = ExtResource( 27 )
+
+[node name="rice seed" parent="CanvasLayer/inventory/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 180.0
+margin_bottom = 236.0
+type = "rice seed"
+icon = ExtResource( 16 )
+
+[node name="selling_menu" type="Control" parent="CanvasLayer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+theme = ExtResource( 11 )
+
+[node name="Panel" type="Panel" parent="CanvasLayer/selling_menu"]
+margin_left = 28.0
+margin_top = 28.0
+margin_right = 132.0
+margin_bottom = 132.0
+custom_styles/panel = SubResource( 10 )
+
+[node name="Label" type="Label" parent="CanvasLayer/selling_menu/Panel"]
+margin_left = 4.0
+margin_right = 44.0
+margin_bottom = 14.0
+text = "selling"
+valign = 2
+
+[node name="close" type="Button" parent="CanvasLayer/selling_menu/Panel"]
+modulate = Color( 0.839216, 0.235294, 0.235294, 1 )
+margin_left = 80.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_clip_content = true
+focus_mode = 0
+enabled_focus_mode = 0
+text = "x"
+flat = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/selling_menu/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 16.0
+margin_right = -2.0
+margin_bottom = -4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/selling_menu/Panel/ScrollContainer"]
+margin_right = 92.0
+margin_bottom = 236.0
+
+[node name="wheat" parent="CanvasLayer/selling_menu/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+type = "wheat"
+icon = ExtResource( 21 )
+selling = true
+
+[node name="oat" parent="CanvasLayer/selling_menu/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 60.0
+margin_bottom = 116.0
+type = "oats"
+icon = ExtResource( 20 )
+selling = true
+
+[node name="barley" parent="CanvasLayer/selling_menu/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 120.0
+margin_bottom = 176.0
+type = "barley"
+icon = ExtResource( 18 )
+selling = true
+
+[node name="rice" parent="CanvasLayer/selling_menu/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 180.0
+margin_bottom = 236.0
+type = "rice"
+icon = ExtResource( 19 )
+selling = true
+
+[node name="upgrades" type="Control" parent="CanvasLayer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+theme = ExtResource( 11 )
+
+[node name="Panel" type="Panel" parent="CanvasLayer/upgrades"]
+margin_left = 28.0
+margin_top = 28.0
+margin_right = 132.0
+margin_bottom = 132.0
+custom_styles/panel = SubResource( 10 )
+
+[node name="Label" type="Label" parent="CanvasLayer/upgrades/Panel"]
+margin_left = 4.0
+margin_right = 44.0
+margin_bottom = 14.0
+text = "upgrades"
+valign = 2
+
+[node name="close" type="Button" parent="CanvasLayer/upgrades/Panel"]
+modulate = Color( 0.839216, 0.235294, 0.235294, 1 )
+margin_left = 80.0
+margin_right = 100.0
+margin_bottom = 17.0
+rect_clip_content = true
+focus_mode = 0
+enabled_focus_mode = 0
+text = "x"
+flat = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/upgrades/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 16.0
+margin_right = -2.0
+margin_bottom = -4.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/upgrades/Panel/ScrollContainer"]
+margin_right = 92.0
+margin_bottom = 236.0
+
+[node name="mill-o-tron" parent="CanvasLayer/upgrades/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+type = "mill-o-tron"
+icon = ExtResource( 21 )
+
+[node name="scythe" parent="CanvasLayer/upgrades/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 60.0
+margin_bottom = 116.0
+type = "scythe+"
+icon = ExtResource( 25 )
+
+[node name="fertilizer" parent="CanvasLayer/upgrades/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 120.0
+margin_bottom = 176.0
+type = "fertilizer"
+icon = ExtResource( 18 )
+
+[node name="crow cash" parent="CanvasLayer/upgrades/Panel/ScrollContainer/VBoxContainer" instance=ExtResource( 13 )]
+margin_top = 180.0
+margin_bottom = 236.0
+type = "crow cash"
+icon = ExtResource( 33 )
+
+[node name="grim_menu" type="Control" parent="CanvasLayer"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 11 )
+
+[node name="Panel" type="Panel" parent="CanvasLayer/grim_menu"]
+margin_left = 28.0
+margin_top = 28.0
+margin_right = 132.0
+margin_bottom = 132.0
+custom_styles/panel = SubResource( 26 )
+
+[node name="Panel" type="Panel" parent="CanvasLayer/grim_menu/Panel"]
+margin_right = 104.0
+margin_bottom = 16.0
+custom_styles/panel = SubResource( 27 )
+
+[node name="Label" type="Label" parent="CanvasLayer/grim_menu/Panel"]
+margin_right = 104.0
+margin_bottom = 14.0
+custom_colors/font_color = Color( 0.682353, 0, 0, 1 )
+custom_fonts/font = SubResource( 25 )
+text = "Grim Reaper"
+align = 1
+valign = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/grim_menu/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 2.0
+margin_top = 20.0
+margin_right = -2.0
+margin_bottom = -20.0
+scroll_horizontal_enabled = false
+
+[node name="dialogue" type="Label" parent="CanvasLayer/grim_menu/Panel/ScrollContainer"]
+margin_right = 92.0
+margin_bottom = 67.0
+rect_min_size = Vector2( 92, 32 )
+custom_colors/font_color = Color( 0.690196, 0.690196, 0.690196, 1 )
+text = "hi im the grim reaper
+
+i want these grain pleas"
+autowrap = true
+
+[node name="give" type="Button" parent="CanvasLayer/grim_menu/Panel"]
+margin_left = 4.0
+margin_top = 88.0
+margin_right = 44.0
+margin_bottom = 99.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "give"
+
+[node name="dont" type="Button" parent="CanvasLayer/grim_menu/Panel"]
+margin_left = 60.0
+margin_top = 88.0
+margin_right = 100.0
+margin_bottom = 99.0
+focus_mode = 0
+custom_colors/font_color = Color( 0.815686, 0, 0, 1 )
+enabled_focus_mode = 0
+text = "don't"
+
+[node name="hover" type="Label" parent="CanvasLayer"]
+margin_right = 80.0
+margin_bottom = 80.0
+theme = SubResource( 21 )
+script = ExtResource( 17 )
+
+[node name="notification" type="Label" parent="CanvasLayer"]
+margin_top = 120.0
+margin_right = 160.0
+margin_bottom = 160.0
+theme = SubResource( 21 )
+text = "help!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+align = 1
+script = ExtResource( 35 )
+
+[node name="pause" type="Control" parent="CanvasLayer"]
+pause_mode = 2
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+theme = ExtResource( 11 )
+script = ExtResource( 34 )
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/pause"]
+margin_right = 160.0
+margin_bottom = 160.0
+color = Color( 0, 0, 0, 0.521569 )
+
+[node name="volume" type="HSlider" parent="CanvasLayer/pause"]
+margin_left = 48.0
+margin_top = 68.0
+margin_right = 112.0
+margin_bottom = 88.0
+theme = ExtResource( 11 )
+min_value = -100.0
+max_value = 10.0
+value = -10.0
+
+[node name="Label" type="Label" parent="CanvasLayer/pause/volume"]
+margin_top = -8.0
+margin_right = 42.0
+margin_bottom = 3.0
+text = "volume"
+
+[node name="resume" type="Button" parent="CanvasLayer/pause"]
+margin_left = 56.0
+margin_top = 40.0
+margin_right = 104.0
+margin_bottom = 51.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "resume"
+
+[node name="menu" type="Button" parent="CanvasLayer/pause"]
+margin_left = 60.0
+margin_top = 96.0
+margin_right = 100.0
+margin_bottom = 107.0
+focus_mode = 0
+enabled_focus_mode = 0
+text = "menu"
+
+[node name="Label" type="Label" parent="CanvasLayer/pause"]
+margin_top = 16.0
+margin_right = 160.0
+margin_bottom = 27.0
+text = "Paused"
+align = 1
+
+[node name="rectanglecursor" type="Sprite" parent="."]
+texture = ExtResource( 26 )
+script = ExtResource( 28 )
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+
+[connection signal="pressed" from="stands/sell" to="." method="_on_sell_pressed"]
+[connection signal="pressed" from="stands/magic" to="." method="_on_magic_pressed"]
+[connection signal="body_entered" from="player/scythe" to="grim_reaper" method="_on_scythe_body_entered"]
+[connection signal="body_entered" from="grim_reaper/scythe" to="player" method="_on_scythereaper_body_entered"]
+[connection signal="pressed" from="CanvasLayer/inventory/Panel/close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="CanvasLayer/selling_menu/Panel/close" to="." method="_on_selling_close_pressed"]
+[connection signal="pressed" from="CanvasLayer/upgrades/Panel/close" to="." method="_on_closeupgrad_pressed"]
+[connection signal="pressed" from="CanvasLayer/grim_menu/Panel/give" to="grim_reaper" method="_on_give_pressed"]
+[connection signal="pressed" from="CanvasLayer/grim_menu/Panel/dont" to="grim_reaper" method="_on_dont_pressed"]
+[connection signal="value_changed" from="CanvasLayer/pause/volume" to="." method="_on_volume_value_changed"]
+[connection signal="pressed" from="CanvasLayer/pause/resume" to="CanvasLayer/pause" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/pause/menu" to="." method="_on_menu_pressed"]
